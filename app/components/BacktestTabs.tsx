@@ -1,11 +1,11 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import BasicSettings from "./tabs/BasicSettings";
-import FactorSettings from "./tabs/FactorSettings";
-import BacktestResults from "./tabs/BacktestResults";
-import AnalysisReport from "./tabs/AnalysisReport";
-import { useBacktest } from "../hooks/useBacktest";
+import BasicSettings from "@/app/components/tabs/BasicSettings";
+import FactorSettings from "@/app/components/tabs/FactorSettings";
+import BacktestResults from "@/app/components/tabs/BacktestResults";
+import AnalysisReport from "@/app/components/tabs/AnalysisReport";
+import { useBacktest } from "@/app/hooks/useBacktest";
 
 export default function BacktestTabs() {
   const {

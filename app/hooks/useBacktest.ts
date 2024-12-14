@@ -14,8 +14,8 @@ const defaultBacktestSettings: BacktestSettings = {
 
 const defaultFactorSettings: FactorSettings = {
   excludeMode: 'all',
-  excludeNewBonds: 0,
-  excludeMarket: [],
+  excludeNewDays: 0,
+  excludeMarket: null,
   customFactors: []
 };
 

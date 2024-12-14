@@ -1,8 +1,8 @@
 export interface BacktestSettings {
   holdingPeriod: number;
   holdingQuantity: number;
-  startDate: Date | undefined;
-  endDate: Date | undefined;
+  startDate?: Date;
+  endDate?: Date;
   tradingTime: 'open' | 'close';
   benchmark: string;
 }
@@ -16,17 +16,17 @@ export interface Factor {
 
 export interface FactorSettings {
   excludeMode: 'all' | 'any';
-  excludeNewBonds: number;
-  excludeMarket: string[];
-  customFactors: Factor[];
+  excludeNewDays: number;
+  excludeMarket: 'sh' | 'sz' | null;
+  customFactors: string[];
 }
 
 export interface Trade {
   date: string;
-  code: string;
-  name: string;
-  action: 'buy' | 'sell';
+  symbol: string;
+  type: 'buy' | 'sell';
   price: number;
+  quantity: number;
   profit?: number;
 }
 
