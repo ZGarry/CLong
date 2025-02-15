@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Input } from "../ui/input";
@@ -8,8 +8,37 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 import { ScrollArea } from "../ui/scroll-area";
+import { Clock } from "lucide-react";
+import { toast } from "sonner";
 
 const SettingsPage = () => {
+  const [rotationTime, setRotationTime] = useState("09:30");
+  const [isRotationEnabled, setIsRotationEnabled] = useState(false);
+
+  const handleSaveSettings = async () => {
+    try {
+      const response = await fetch('/api/settings/rotation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          enabled: isRotationEnabled,
+          time: rotationTime,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('保存设置失败');
+      }
+
+      toast.success('设置已保存');
+    } catch (error) {
+      toast.error('保存设置失败');
+      console.error('Error saving settings:', error);
+    }
+  };
+
   return (
     <div className="container max-w-6xl py-6">
       <Tabs defaultValue="general" className="space-y-4">
@@ -29,6 +58,40 @@ const SettingsPage = () => {
               <div className="space-y-2">
                 <Label>数据刷新间隔（秒）</Label>
                 <Input type="number" placeholder="30" className="max-w-[200px]" />
+              </div>
+
+              <div className="space-y-4 pt-4 border-t">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>每日轮动</Label>
+                    <div className="text-sm text-muted-foreground">
+                      在指定时间执行策略轮动
+                    </div>
+                  </div>
+                  <Switch
+                    checked={isRotationEnabled}
+                    onCheckedChange={setIsRotationEnabled}
+                  />
+                </div>
+                
+                <div className="flex items-end gap-4">
+                  <div className="flex-grow space-y-2 max-w-[200px]">
+                    <Label htmlFor="rotation-time">轮动时间</Label>
+                    <div className="relative">
+                      <Input
+                        id="rotation-time"
+                        type="time"
+                        value={rotationTime}
+                        onChange={(e) => setRotationTime(e.target.value)}
+                        className="pl-9"
+                      />
+                      <Clock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    </div>
+                  </div>
+                  <Button onClick={handleSaveSettings}>
+                    保存设置
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
