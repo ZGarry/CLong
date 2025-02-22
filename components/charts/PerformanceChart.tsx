@@ -1,35 +1,68 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
 
-const data = [
-  { date: "2023-01", value: 100 },
-  { date: "2023-02", value: 105 },
-  { date: "2023-03", value: 108 },
-  { date: "2023-04", value: 112 },
-  { date: "2023-05", value: 115 },
-  { date: "2023-06", value: 120 },
-];
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-export default function PerformanceChart() {
+interface PerformanceChartProps {
+  returns: number[];
+  dates: string[];
+}
+
+export default function PerformanceChart({ returns, dates }: PerformanceChartProps) {
+  const data = {
+    labels: dates,
+    datasets: [
+      {
+        label: '累计收益率',
+        data: returns,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: '策略回测收益曲线',
+      },
+    },
+    scales: {
+      y: {
+        ticks: {
+          callback: (value: number) => `${(value * 100).toFixed(2)}%`,
+        },
+      },
+    },
+  };
+
   return (
-    <div className="h-[400px] w-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line 
-            type="monotone" 
-            dataKey="value" 
-            stroke="#3370ff" 
-            name="策略收益"
-          />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className="w-full h-[400px]">
+      <Line data={data} options={options} />
     </div>
   );
 }
