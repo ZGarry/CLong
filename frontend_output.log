@@ -2,8 +2,11 @@
 > gear-trading-system@0.1.0 dev
 > next dev
 
- ⚠ Port 3000 is in use, trying 3001 instead.
    ▲ Next.js 14.0.3
-   - Local:        http://localhost:3001
+   - Local:        http://localhost:3000
 
- ✓ Ready in 42.9s
+ ✓ Ready in 1611ms
+ ○ Compiling / ...
+ ✓ Compiled / in 3.4s (587 modules)
+ ✓ Compiled in 563ms (294 modules)
+^C^C
